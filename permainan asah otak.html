@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tebak Kata Tersembunyi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0070f3 0%, #21d4fd 100%);
+            font-family: 'Segoe UI', Verdana, Geneva, Tahoma, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.90);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.11);
+            padding: 36px 28px;
+            width: 350px;
+            text-align: center;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                transform: scale(0.9) translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #0070f3;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .kata-acak {
+            font-size: 2.2em;
+            font-weight: bold;
+            background: linear-gradient(90deg, #0070f3 40%, #42e695 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 18px;
+            letter-spacing: 5px;
+            padding: 8px;
+            transition: .2s;
+        }
+
+        input[type="text"] {
+            font-size: 1.1em;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #00aaff;
+            width: 75%;
+            margin-bottom: 14px;
+            transition: box-shadow .2s;
+        }
+
+        input[type="text"]:focus {
+            box-shadow: 0 0 6px 0 #42e695;
+            outline: none;
+        }
+
+        button {
+            background: linear-gradient(90deg, #0070f3 60%, #42e695 100%);
+            color: white;
+            border: none;
+            padding: 11px 32px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+            transition: background .2s, transform .15s;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        .score,
+        .message,
+        .level {
+            margin: 12px 0;
+            font-size: 1.12em;
+            min-height: 26px;
+            font-weight: bold;
+        }
+
+        .message {
+            color: #c20b12;
+            height: 26px;
+            margin-bottom: 4px;
+        }
+
+        .success {
+            color: #0b8e35;
+            animation: pop .3s;
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(1);
+            }
+
+            70% {
+                transform: scale(1.2);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .restart-btn {
+            margin-top: 15px;
+            background: #fff;
+            color: #0070f3;
+            border: 1px solid #0070f3;
+            font-weight: bold;
+            padding: 8px 22px;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: background .2s;
+        }
+
+        .restart-btn:hover {
+            background: #e6f7ff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Tebak Kata Tersembunyi</h1>
+        <div class="score">Skor: <span id="skor">0</span></div>
+        <div class="level">Level <span id="level">1</span> dari <span id="totalLevel"></span></div>
+        <div class="kata-acak" id="kataAcak">----</div>
+        <input type="text" id="tebakan" placeholder="Tulis tebakanmu..." autocomplete="off">
+        <br>
+        <button onclick="cekJawaban()">Jawab!</button>
+        <div class="message" id="msg"></div>
+        <button class="restart-btn" onclick="mulaiPermainan()">Restart Permainan</button>
+    </div>
+    <script>
+        const daftarKata = [
+            'otak', 'pintar', 'cerdas', 'ingat', 'memori', 'belajar', 'konsentrasi', 'tebak',
+            'fokus', 'logika', 'analisis', 'strategi', 'kreatif', 'solusi', 'imajinasi', 'visual',
+            'kombinasi', 'kata', 'angka', 'gambar', 'interaktif', 'respons', 'adaptasi'
+        ];
+        const jumlahLevel = 7; // Ganti untuk tingkat kesulitan!
+
+        let katakata = [];
+        let level = 0;
+        let skor = 0;
+        let kata, kataAcak;
+
+        function acakKata(str) {
+            let arr = str.split('');
+            do {
+                arr.sort(() => Math.random() - 0.5);
+            } while (arr.join('') === str);
+            return arr.join('');
+        }
+
+        function mulaiPermainan() {
+            katakata = [...daftarKata].sort(() => Math.random() - 0.5).slice(0, jumlahLevel);
+            level = 0;
+            skor = 0;
+            document.getElementById("skor").textContent = skor;
+            document.getElementById("level").textContent = 1;
+            document.getElementById("totalLevel").textContent = jumlahLevel;
+            document.getElementById("msg").textContent = "";
+            document.getElementById("msg").className = "message";
+            document.getElementById("tebakan").value = "";
+            document.getElementById("tebakan").disabled = false;
+            document.querySelector("button:not(.restart-btn)").disabled = false;
+            tampilkanKata();
+        }
+
+        function tampilkanKata() {
+            kata = katakata[level];
+            kataAcak = acakKata(kata);
+            document.getElementById("kataAcak").textContent = kataAcak;
+            document.getElementById("tebakan").value = "";
+            document.getElementById("tebakan").focus();
+        }
+
+        function cekJawaban() {
+            const input = document.getElementById("tebakan").value.trim().toLowerCase();
+            if (input === '') {
+                document.getElementById("msg").textContent = "Kolom tebakan tidak boleh kosong!";
+                document.getElementById("msg").className = "message";
+                return;
+            }
+            if (input === kata) {
+                skor += 1;
+                document.getElementById("skor").textContent = skor;
+                document.getElementById("msg").textContent = "Benar! 🎉";
+                document.getElementById("msg").className = "message success";
+            } else {
+                document.getElementById("msg").textContent = `Salah, jawabannya: ${kata}`;
+                document.getElementById("msg").className = "message";
+            }
+            setTimeout(() => {
+                level++;
+                if (level < katakata.length) {
+                    document.getElementById("level").textContent = level + 1;
+                    document.getElementById("msg").textContent = "";
+                    document.getElementById("msg").className = "message";
+                    tampilkanKata();
+                } else {
+                    document.getElementById("msg").textContent = `Permainan selesai! Skor kamu: ${skor}/${katakata.length}`;
+                    document.getElementById("tebakan").disabled = true;
+                    document.querySelector("button:not(.restart-btn)").disabled = true;
+                    document.getElementById("kataAcak").textContent = "---";
+                }
+            }, 950);
+        }
+
+        mulaiPermainan();
+    </script>
+</body>
+
+</html>
