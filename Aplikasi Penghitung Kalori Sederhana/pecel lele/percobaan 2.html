@@ -1,0 +1,121 @@
+body {
+background: linear-gradient(to top, #a8e0ff 0%, #f8ffae 100%);
+margin: 0;
+padding: 0;
+font-family: 'Poppins', Arial, sans-serif;
+}
+.hero {
+text-align: center;
+padding-top: 60px;
+}
+.animated-title {
+font-size: 54px;
+font-weight: bold;
+color: #126782;
+animation: titleWiggle 2.5s infinite alternate;
+text-shadow: 0 2px 12px #41b1ec77;
+letter-spacing: 2px;
+}
+@keyframes titleWiggle {
+0% { transform: rotate(-2deg) scale(1); }
+50% { transform: rotate(6deg) scale(1.08); }
+100% { transform: rotate(-2deg) scale(1); }
+}
+.water {
+position: relative;
+width: 430px;
+height: 140px;
+margin: 50px auto 20px auto;
+background: radial-gradient(circle at 60% 40%, #73b9e0 80%, #457fae 100%);
+border-radius: 0 0 110px 110px / 0 0 120px 120px;
+box-shadow: 0 12px 32px #41b1ec26 inset;
+overflow: hidden;
+}
+.lele {
+position: absolute;
+left: -100px;
+top: 56px;
+z-index: 10;
+width: 80px;
+height: 34px;
+animation: swim 7s cubic-bezier(.42,.73,.3,.98) infinite;
+}
+@keyframes swim {
+0% { left: -100px; transform: scaleX(1); }
+45% { left: 370px; transform: scaleX(1); }
+48% { left: 370px; transform: scaleX(-1); }
+95% { left: -100px; transform: scaleX(-1);}
+100% { left: -100px; transform: scaleX(1);}
+}
+.lele .body {
+background: #363535;
+width: 60px;
+height: 22px;
+border-radius: 25px 60px 50px 32px / 40px 30px 60px 70px;
+position: absolute;
+left: 12px; top: 4px;
+box-shadow: 0 7px 16px #0003;
+}
+.lele .fin {
+width: 28px; height: 12px;
+background: #126782;
+top: 16px; left: 16px;
+position: absolute;
+border-radius: 0 19px 17px 6px / 4px 22px 17px 1px;
+transform: rotate(28deg);
+opacity: 0.7;
+}
+.lele .tail {
+width: 26px; height: 13px;
+background: #282828;
+top: 11px; left: 0px;
+position: absolute;
+border-radius: 30px 30px 33px 1px / 32px 33px 12px 17px;
+transform: rotate(-22deg);
+opacity: 0.7;
+}
+.lele .bubble {
+position: absolute;
+left: 67px; top: 7px;
+width: 8px; height: 8px;
+background: #c9f7fa;
+border-radius: 50%;
+animation: bubbleMove 2s infinite ease-in;
+opacity: 0.60;
+}
+@keyframes bubbleMove {
+0% { opacity: 0; top: 17px; }
+50% { opacity: 0.80; top: 7px;}
+100% { opacity: 0; top: -17px;}
+}
+.desc {
+font-size: 1.22rem;
+color: #116782;
+margin-bottom: 24px;
+animation: fadeIn 2.4s both;
+}
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(30px);}
+to { opacity: 1;}
+}
+.menu-btn {
+background: linear-gradient(90deg, #6afda8 10%, #41b1ec 90%);
+color: #fff;
+border: none;
+padding: 18px 48px;
+font-size: 1.21rem;
+font-weight: 700;
+border-radius: 60px;
+cursor: pointer;
+box-shadow: 0 6px 24px #41b1ec45;
+transition: transform 0.2s, box-shadow 0.2s;
+animation: btnPop 2.8s both;
+}
+.menu-btn:hover {
+transform: scale(1.12);
+box-shadow: 0 12px 42px #07345a44;
+}
+@keyframes btnPop {
+from { opacity: 0; transform: scale(0.62); }
+to { opacity: 1; transform: scale(1.02);}
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Calorie Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Pelacak Kalori Harian</h1>
+
+        <div class="limit-setting">
+            <label for="limit">Batas Kalori Harian (kcal):</label>
+            <input type="number" id="limit" value="2000" min="1000">
+        </div>
+
+        <hr>
+
+        <div class="progress-container">
+            <h3>Progress Hari Ini</h3>
+            <div id="progress-bar-bg">
+                <div id="progress-bar-fill"></div>
+            </div>
+            <p id="progress-text">0 / 2000 kcal</p>
+        </div>
+
+        <hr>
+
+        <div class="input-form">
+            <input type="text" id="nama-makanan" placeholder="Nama Makanan">
+            <input type="number" id="jumlah-kalori" placeholder="Jumlah Kalori (kcal)">
+            <button id="tambah-btn">Catat</button>
+        </div>
+
+        <hr>
+
+        <h2>Daftar Konsumsi</h2>
+        <ul id="daftar-makanan"></ul>
+        <button id="reset-btn">Reset Harian</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
